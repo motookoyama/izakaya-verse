@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "features": {
+    "payments": {
+      "enabled": true,
+      "providers": {
+        "paypal": {
+          "enabled": true,
+          "mode": "sandbox"
+        },
+        "stripe": {
+          "enabled": false,
+          "mode": "test"
+        }
+      }
+    },
+    "redeem": {
+      "enabled": true,
+      "max_attempts": 3
+    },
+    "tickets": {
+      "enabled": true,
+      "pdf_generation": true
+    },
+    "metacapture": {
+      "enabled": false,
+      "mode": "lite",
+      "max_tokens": 1000
+    },
+    "event_agent": {
+      "enabled": false,
+      "seasonal_events": true,
+      "daily_events": false
+    },
+    "satellite": {
+      "enabled": false,
+      "gemini_lite": false
+    },
+    "v2_cards": {
+      "enabled": true,
+      "formats": ["json", "sAtd"],
+      "png_parsing": false
+    }
+  },
+  "environment": {
+    "api_base": "/api",
+    "cors_origins": [
+      "https://motookoyama.github.io",
+      "http://localhost:5173"
+    ]
+  },
+  "limits": {
+    "max_file_size": "10MB",
+    "max_points_per_transaction": 10000,
+    "rate_limit": {
+      "requests_per_minute": 60
+    }
+  }
+}
