@@ -1,0 +1,12 @@
+{
+  "name": "Sample Card",
+  "meta": {
+    "source": "mockV2",
+    "imageBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAJYCAYAAABM7L...",
+    "thumb": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAA"
+  },
+  "raw": {
+    "ok": true
+  },
+  "createdAt": 1756965503357
+}

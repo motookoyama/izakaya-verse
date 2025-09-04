@@ -1,0 +1,40 @@
+{
+    "server": {
+        "host": "localhost",
+        "port": 8911,
+        "debug": true
+    },
+    "models": {
+        "local": {
+            "enabled": true,
+            "path": "/Users/Shared/AI_Models",
+            "supported_formats": ["gguf", "ggml", "safetensors"]
+        },
+        "online": {
+            "enabled": true,
+            "providers": ["openai", "anthropic", "google", "mistral"]
+        }
+    },
+    "knowledge_base": {
+        "enabled": true,
+        "storage_path": "/Users/Shared/Knowledge_Base",
+        "indexing": {
+            "auto_index": true,
+            "refresh_interval": 3600
+        }
+    },
+    "tools": {
+        "enabled": true,
+        "allowed_domains": ["*"],
+        "max_concurrent_requests": 5
+    },
+    "frontend": {
+        "enabled": true,
+        "allowed_origins": ["*"],
+        "cors": true
+    },
+    "logging": {
+        "level": "info",
+        "file": "mcp_server.log"
+    }
+} 
