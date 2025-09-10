@@ -1,0 +1,5 @@
+{
+  "name": "IZAKAYA Builder 3.1",
+  "description": "A local chat application to interact with an AI assistant, inspired by Google AI Studio builders. This frontend is designed to demonstrate a chat interface that could communicate with a local backend server or directly with the Gemini API.",
+  "requestFramePermissions": []
+}

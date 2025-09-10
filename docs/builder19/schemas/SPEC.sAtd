@@ -1,0 +1,12 @@
+title: Builder/Verse SPEC (SoT)
+version: 0.1
+io:
+  input: [{ name: prompt, type: string }]
+  output:
+    - { name: result_json, type: json }
+    - { name: result_md,   type: markdown }
+    - { name: trace,       type: json }
+guardrails:
+  - deterministic_output_shape
+  - no_secret_in_repo
+  - outputs_dir_is_not_git_tracked
