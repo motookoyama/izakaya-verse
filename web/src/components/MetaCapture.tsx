@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Download, Upload, Image, FileText, Globe } from 'lucide-react';
+import { Globe, Image, FileText } from 'lucide-react';
 
 interface V2CardData {
   name: string;

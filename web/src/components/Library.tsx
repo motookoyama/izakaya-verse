@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Library as LibraryIcon, Download, Eye, Tag, Satellite, Plus, Link } from 'lucide-react'
+import { Library as LibraryIcon, Download, Satellite, Plus, Link } from 'lucide-react'
 import GeminiGenerator from './GeminiGenerator'
 import MetaCapture from './MetaCapture'
 

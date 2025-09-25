@@ -22,13 +22,13 @@ interface V2Card {
   image_url?: string
   tags: string[]
   character_data?: any
+  created_at: string // 追加
 }
 
 const Play = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState('')
   const [currentCard, setCurrentCard] = useState<V2Card | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -99,7 +99,7 @@ const Play = () => {
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
         type: 'bot',
-        content: `「${inputMessage}」について話しましょう。${currentCard?.name || 'キャラクター'}として応答します。`,
+        content: `「${inputMessage}」について話しましょう。${currentCard?.title || 'キャラクター'}として応答します。`,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, botResponse])

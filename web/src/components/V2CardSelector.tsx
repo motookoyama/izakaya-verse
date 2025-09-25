@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, User, Image, Tag } from 'lucide-react';
+import { ChevronDown, User, Tag } from 'lucide-react';
 
 interface V2Card {
   id: string;
   title: string;
   description: string;
+  personality: string;
+  first_mes: string;
+  system_prompt?: string;
+  scenario?: string;
+  creator_notes?: string;
   image_url?: string;
   character_data?: any;
   tags: string[];
