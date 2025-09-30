@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: izakaya
+      POSTGRES_PASSWORD: izakaya
+      POSTGRES_DB: izakaya_dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    command: bash -lc "bundle exec rails server -b 0.0.0.0 -p 3000"
+    volumes:
+      - ./apps/api:/app
+    environment:
+      DATABASE_URL: postgres://izakaya:izakaya@db:5432/izakaya_dev
+      RAILS_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

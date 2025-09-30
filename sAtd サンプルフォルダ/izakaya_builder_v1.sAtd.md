@@ -48,7 +48,7 @@ npm install
 PROVIDER=ollama
 OLLAMA_BASE_URL=http://localhost:11434/v1
 OLLAMA_MODEL=qwen3:4b
-PORT=8787
+PORT=4117
 # オプション
 # GITHUB_TOKEN=xxxxxx
 

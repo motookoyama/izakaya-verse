@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frame Map – Default Template</title>
+    <style>
+      :root { font-family: sans-serif; background: #f8f8f8; color: #333; }
+      body { margin: 0; padding: 32px; }
+      .page { max-width: 960px; margin: 0 auto; display: grid; gap: 16px; }
+      .tabs { display: grid; grid-auto-flow: column; gap: 8px; }
+      .tab { height: 32px; border-radius: 6px 6px 0 0; border: 2px solid #bbb; background: #e3e3e3; }
+      .hero { border: 2px solid #bbb; border-radius: 10px; padding: 24px; display: grid; grid-template-columns: 200px 1fr; gap: 16px; position: relative; }
+      .hero::after { content: '#ヒーロー'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .btn-solo { border: 2px solid #bbb; border-radius: 999px; height: 72px; display: grid; place-items: center; position: relative; }
+      .btn-solo::after { content: '#メインCTA'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .story { border: 2px solid #bbb; border-radius: 10px; padding: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; position: relative; }
+      .story::after { content: '#テキストセクション'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .action { border: 2px solid #bbb; border-radius: 10px; height: 72px; position: relative; }
+      .action::after { content: '#ボタン'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .footer { border: 2px solid #bbb; border-radius: 10px; min-height: 160px; position: relative; }
+      .footer::after { content: '#フッター/補足'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="tabs">
+        <div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div>
+      </div>
+      <section class="hero"></section>
+      <section class="btn-solo"></section>
+      <section class="story"></section>
+      <div class="actions">
+        <div class="action"></div>
+        <div class="action"></div>
+        <div class="action"></div>
+      </div>
+      <section class="footer"></section>
+    </div>
+  </body>
+</html>

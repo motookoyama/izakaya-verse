@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # 設定（必要なら上書き）
-BASE_URL="${V2_BASE:-http://localhost:8787}"
+BASE_URL="${V2_BASE:-http://localhost:4117}"
 LIST_CANDIDATES=("/api/v2/cards" "/v2/cards" "/api/cards" "/cards")
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

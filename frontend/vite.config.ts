@@ -7,11 +7,11 @@ export default defineConfig({
     port: FRONTEND_PORT,
     proxy: {
       '/api': {
-        target: 'http://localhost:8787',
+        target: 'http://localhost:4117',
         changeOrigin: true
       },
       '/v1': {
-        target: 'http://localhost:8787',
+        target: 'http://localhost:4117',
         changeOrigin: true
       }
     }

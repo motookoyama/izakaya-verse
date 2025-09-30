@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
-import type { AppConfig } from '../config.ts';
-import { getFetch } from '../util/fetcher.ts';
+import type { AppConfig } from '../config.js';
+import { getFetch } from '../util/fetcher.js';
 
 type ModelsResponse = { provider: string; models: string[] };
 

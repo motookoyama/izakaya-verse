@@ -4,6 +4,9 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "22"
+    },
+    "ghcr.io/devcontainers/features/docker:1": {
+      "version": "latest"
     }
   },
   "forwardPorts": [5173, 8787],
@@ -11,7 +14,6 @@
     "5173": { "label": "frontend" },
     "8787": { "label": "bff" }
   },
-  "postCreateCommand": "npm ci || npm i",
   "postAttachCommand": {
     "server": "bash -lc 'scripts/start.sh'"
   },
@@ -25,6 +27,9 @@
         "esbenp.prettier-vscode"
       ]
     }
-  }
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
 }
 

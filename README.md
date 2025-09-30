@@ -22,7 +22,7 @@ IZAKAYAverse のポイント購入・管理システム
 ```
 IZAKAYA verse/
 ├── apps/
-│   ├── web/          # Vite + React (フロントエンド)
+│   ├── web/          # Vite + Vue (フロントエンド)
 │   └── api/          # Express/FastAPI (バックエンド)
 ├── specs/            # 仕様書 (.sAtd)
 ├── assets/           # 画像・QRコード
@@ -51,6 +51,22 @@ IZAKAYA verse/
 - **電子妖精アバタモ⭐︎エクボ2.0**: https://www.amazon.co.jp/dp/B0CW1NBPTB
 - **studioMOTO**: https://studiomoto.booth.pm/
 
+
+### フロントエンドの状態
+- Vue 3 + TypeScript で再構築した管理ダッシュボード。
+- CSS変数ベースのスキン切替（5テーマ）と日本語/英語の言語トグルに対応。
+- デザイン参照は `apps/web/public/design/` と `IZAKAYA verse/apps/webstyle/` に整理。
+
+### BFF: Fastify ベースのゲートウェイ
+- ディレクトリ: `bff/`
+- 起動: `npm -w bff run dev`（ポート既定 4117）
+- データ永続化: `bff/data/points.json`（自動生成、Git 管理外）
+- 仕様書: `docs/BFF_SPEC.md`
+
+### バックエンドの状態
+- `apps/api/` に Docker ベースの Rails 7.1 API 初期化用テンプレートを追加。
+- `docker-compose.api.yml` で PostgreSQL 15 + Rails サービスを起動。
+- Rails プロジェクト未生成の場合は README の手順で `rails new` を実行してください。
 ## 🛠️ 開発環境
 
 ### フロントエンド

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frame Map – Home</title>
+    <style>
+      :root { font-family: sans-serif; background: #f8f8f8; color: #333; }
+      body { margin: 0; padding: 32px; }
+      .page { max-width: 1200px; margin: 0 auto; display: grid; gap: 16px; }
+      .tabs { display: grid; grid-auto-flow: column; gap: 8px; }
+      .tab { height: 36px; border-radius: 6px 6px 0 0; border: 2px solid #bbb; background: #e3e3e3; }
+      .hero { border: 2px solid #bbb; border-radius: 10px; min-height: 220px; display: grid; place-items: center; position: relative; }
+      .hero::after { content: '#シンボル/挨拶'; position: absolute; inset: 12px auto auto 12px; font-size: 12px; color: #666; }
+      .panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .panel { border: 2px solid #bbb; border-radius: 10px; min-height: 120px; position: relative; }
+      .panel::after { content: '#パネルリンク'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .cta { border: 2px solid #bbb; border-radius: 999px; padding: 24px; display: grid; place-items: center; position: relative; }
+      .cta::after { content: '#スタートCTA'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .sns { border: 2px solid #bbb; border-radius: 10px; min-height: 120px; display: grid; grid-template-columns: 1fr 80px; gap: 12px; padding: 16px; position: relative; }
+      .sns::after { content: '#VSNS'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .info { border: 2px solid #bbb; border-radius: 10px; padding: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
+      .info::after { content: '#インフォ'; position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="tabs">
+        <div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div>
+      </div>
+      <section class="hero"></section>
+      <div class="panels">
+        <div class="panel"></div>
+        <div class="panel"></div>
+        <div class="panel"></div>
+      </div>
+      <section class="cta"></section>
+      <section class="sns"></section>
+      <section class="info"></section>
+    </div>
+  </body>
+</html>

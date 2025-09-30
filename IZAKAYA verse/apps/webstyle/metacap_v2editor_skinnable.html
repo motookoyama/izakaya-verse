@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IZAKAYA — MetaCapture & V2Editor (Skinnable)</title>
+<style>
+/* ===== Base (neutral) tokens — avoid brand drift ===== */
+:root{
+  --bg:#0e1116; --panel:#121827; --surface:#0f1626; --line:#24314f;
+  --fg:#e7e9ee; --muted:#a2acc1;
+  --brand:#6aa1ff; --brand-2:#43e3bf; --accent:#ff6b9e;
+  --radius:16px; --space:14px; --shadow:0 14px 40px rgba(0,0,0,.35);
+}
+
+/* ===== Skins (override only colors) ===== */
+:root[data-skin="steampunk"]{
+  --bg:#19160f; --panel:#2b2216; --surface:#342919; --line:#5a462a;
+  --fg:#f3e8d1; --muted:#d6c6a8; --brand:#c79a3b; --brand-2:#e87a3a; --accent:#b3262d;
+}
+:root[data-skin="pacific"]{
+  --bg:#081018; --panel:#0f172a; --surface:#0c1220; --line:#1e2741;
+  --fg:#e6e7ea; --muted:#9aa3af; --brand:#7c87ff; --brand-2:#30e1b9; --accent:#ff6b9e;
+}
+:root[data-skin="rose"]{
+  --bg:#f6ecef; --panel:#f3d4d0; --surface:#f9e3e7; --line:#e7bfc0;
+  --fg:#2b1a1a; --muted:#6d4d4f; --brand:#e400a6; --brand-2:#c681e8; --accent:#e00a14;
+}
+
+/* ===== Layout & components ===== */
+*{box-sizing:border-box} html,body{height:100%}
+body{
+  margin:0; background: radial-gradient(1200px 600px at 20% 0%, #0b0f14 0, var(--bg) 55%, #070a12 100%);
+  color:var(--fg); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;
+}
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(180deg,#141b2c,var(--panel));border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800}
+.badge{font-size:12px;padding:4px 10px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0b0f14;font-weight:800}
+.skinbar{display:flex;gap:8px;flex-wrap:wrap}
+.skinbar button{padding:8px 12px;border-radius:10px;background:#0f172a;border:1px solid var(--line);color:var(--fg);cursor:pointer;opacity:.85}
+.skinbar button.active{opacity:1;box-shadow:0 8px 18px rgba(0,0,0,.35)}
+.container{max-width:1240px;margin:0 auto;padding:18px}
+.grid{display:grid;gap:18px}
+.cols{grid-template-columns: 220px 1.1fr .9fr}
+@media(max-width:1080px){.cols{grid-template-columns:1fr}}
+
+.card{background:linear-gradient(180deg,var(--surface), #0a0f1b);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.kicker{font-size:12px;color:var(--brand-2);letter-spacing:.25em;text-transform:uppercase}
+.h2{margin:6px 0 10px 0; font-size:22px; font-weight:800}
+.tag{font-size:12px;padding:6px 10px;border:1px solid #263257;border-radius:999px;background:#0d1527;color:#cbd2e1}
+.input,.select,.textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #273356;background:#0d1527;color:var(--fg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid #303a60;background:#121a2d;color:var(--fg);font-weight:700;letter-spacing:.2px;cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0b0f14;border-color:transparent}
+.btn-ghost{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+
+.sidebar .section{margin-bottom:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+.canvas{aspect-ratio:16/9;background:radial-gradient(400px 220px at 80% 20%, rgba(124,135,255,.25),transparent 60%),linear-gradient(180deg,#0e1527,#0a0f1b);border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#9fb2ff}
+.drop{position:relative;border:1px dashed var(--line);border-radius:14px;background:#0d1527;min-height:140px;display:flex;align-items:center;justify-content:center;color:#9fb2ff}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.preview{position:relative;display:inline-block;max-width:100%}
+.preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+.box{position:absolute;border:2px solid var(--brand-2);border-radius:6px;pointer-events:none}
+.code{background:#0b1425;border:1px solid var(--line);border-radius:12px;padding:12px;white-space:pre-wrap;max-height:260px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+
+.footer{padding:16px;text-align:center;color:var(--muted);border-top:1px solid var(--line);background:var(--bg)}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><span class="badge">IZAKAYA</span> <span>MetaCapture & V2Editor</span></div>
+  <div class="skinbar">
+    <button data-skin="pacific" class="active">Pacific</button>
+    <button data-skin="steampunk">Steampunk</button>
+    <button data-skin="rose">Bright Rose</button>
+  </div>
+</header>
+
+<div class="container grid cols">
+  <!-- Left: Navigator -->
+  <aside class="card sidebar">
+    <div class="kicker">Navigator</div>
+    <div class="section">
+      <div class="h2">Sections</div>
+      <div class="row">
+        <span class="tag">#Capture</span>
+        <span class="tag">#Edit</span>
+        <span class="tag">#Info</span>
+      </div>
+    </div>
+    <div class="section">
+      <div class="kicker">V2 CARD</div>
+      <div class="row" style="margin-top:6px">
+        <span class="tag">icon 🃏</span>
+        <span class="tag">id:v2-001</span>
+      </div>
+      <div style="height:8px"></div>
+      <label class="kicker" style="margin:0">name</label>
+      <input class="input" placeholder="Dr. Orb" />
+      <div style="height:8px"></div>
+      <label class="kicker" style="margin:0">first_mes</label>
+      <textarea class="textarea" rows="4">こんにちは、私は…</textarea>
+    </div>
+    <div class="section">
+      <button class="btn btn-primary" style="width:100%">保存</button>
+    </div>
+  </aside>
+
+  <!-- Middle: MetaCapture -->
+  <section class="grid" style="gap:14px">
+    <div class="card">
+      <div class="kicker">MetaCapture</div>
+      <div class="h2">スケッチ/画像の取り込み</div>
+      <div id="drop" class="drop">
+        <span>画像をドロップ or クリックして選択</span>
+        <input id="file" type="file" accept="image/*">
+      </div>
+      <div id="preview" class="preview" style="margin-top:12px;display:none">
+        <img id="img" alt="preview">
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button id="analyze" class="btn btn-primary" disabled>解析</button>
+        <button id="resetMeta" class="btn btn-ghost" disabled>リセット</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="kicker">Result JSON</div>
+      <div id="code" class="code">画像を読み込んで「解析」を押してください。</div>
+    </div>
+  </section>
+
+  <!-- Right: Info & V2 Editor -->
+  <section class="grid" style="gap:14px">
+    <div class="card">
+      <div class="kicker">QR & Info</div>
+      <div class="canvas">QR / META / INFO</div>
+    </div>
+    <div class="card">
+      <div class="kicker">V2 Editor</div>
+      <label class="kicker" style="margin:0">behavior</label>
+      <textarea class="textarea" rows="6">誠実・大胆・やや皮肉</textarea>
+      <div style="height:10px"></div>
+      <label class="kicker" style="margin:0">links</label>
+      <input class="input" placeholder="https://..." />
+      <div style="height:10px"></div>
+      <div class="row">
+        <button class="btn btn-primary">保存</button>
+        <button class="btn">JSONを出力</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">© 2025 IZAKAYA Verse — Skinnable MetaCapture & V2Editor (front-only)</footer>
+
+<script>
+// Skin switcher
+const root = document.documentElement;
+document.querySelectorAll('.skinbar button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.skinbar button').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    if(btn.dataset.skin){ root.setAttribute('data-skin', btn.dataset.skin); }
+  });
+});
+root.setAttribute('data-skin', 'pacific');
+
+// MetaCapture mock (simple like before)
+const fileInput = document.getElementById('file');
+const drop = document.getElementById('drop');
+const preview = document.getElementById('preview');
+const img = document.getElementById('img');
+const analyzeBtn = document.getElementById('analyze');
+const resetBtn = document.getElementById('resetMeta');
+const codeEl = document.getElementById('code');
+
+function showImage(file){
+  const url = URL.createObjectURL(file);
+  img.onload = ()=>URL.revokeObjectURL(url);
+  img.src = url;
+  preview.style.display='inline-block';
+  analyzeBtn.disabled=false; resetBtn.disabled=false;
+  codeEl.textContent = "画像読み込みOK。「解析」を押してください。";
+}
+
+fileInput.addEventListener('change', e=>{
+  const f = e.target.files[0]; if(f) showImage(f);
+});
+drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.style.borderColor='var(--brand-2)'; });
+drop.addEventListener('dragleave', e=>{ drop.style.borderColor='var(--line)'; });
+drop.addEventListener('drop', e=>{
+  e.preventDefault(); drop.style.borderColor='var(--line)';
+  const f = e.dataTransfer.files[0]; if(f) showImage(f);
+});
+
+analyzeBtn.addEventListener('click', ()=>{
+  // fake JSON payload compatible with future MetaCapture spec
+  const meta = {
+    spec_version: "1.0",
+    source: "mock-metacapture",
+    image: { width: img.naturalWidth||0, height: img.naturalHeight||0 },
+    regions: [
+      { x: 48, y: 36, w: 220, h: 120, label: "header" },
+      { x: 52, y: 170, w: 210, h: 220, label: "main" }
+    ],
+    notes: "ダミー解析。実装時に本解析へ差し替え。"
+  };
+  codeEl.textContent = JSON.stringify(meta, null, 2);
+});
+
+resetBtn.addEventListener('click', ()=>{
+  preview.style.display='none'; img.src=''; codeEl.textContent='画像を読み込んで「解析」を押してください。';
+  analyzeBtn.disabled=true; resetBtn.disabled=true;
+});
+</script>
+</body>
+</html>

@@ -9,7 +9,8 @@ if [[ -f .env ]]; then
 fi
 
 FRONT_PORT="${FRONTEND_PORT:-5173}"
-BFF_PORT="${PORT:-8787}"
+API_PORT="${API_PORT:-3117}"
+BFF_PORT="${BFF_PORT:-4117}"
 
 kill_on_port() {
   local port="$1"
@@ -27,10 +28,10 @@ kill_on_port() {
   fi
 }
 
+kill_on_port "$API_PORT"
 kill_on_port "$BFF_PORT"
 kill_on_port "$FRONT_PORT"
 
-# Handle optional legacy ports robustly even with set -u
 EXTRA=()
 if [[ -n "${LEGACY_PORTS:-}" ]]; then
   IFS=',' read -ra EXTRA <<< "${LEGACY_PORTS}"

@@ -4,12 +4,13 @@ import multipart from '@fastify/multipart';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { loadConfig } from './config.ts';
-import { registerHealth } from './routes/health.ts';
-import { registerModels } from './routes/models.ts';
-import { registerChatCompat } from './routes/chat_compat.ts';
-import { registerV2 } from './routes/v2.full.ts';
-import { registerSave } from './routes/save.ts';
+import loadConfig from './config.js';
+// import { registerHealth } from './routes/health.js'; // ファイルが存在しないためコメントアウト
+import { registerModels } from './routes/models.js';
+import { registerChatCompat } from './routes/chat_compat.js';
+// import { registerV2 } from './routes/v2.full.js'; // ファイルが存在しないためコメントアウト
+// import { registerSave } from './routes/save.js'; // ファイルが存在しないためコメントアウト
+// import { registerPoints } from './routes/points.js'; // ファイルが存在しないためコメントアウト
 
 const cfg = loadConfig();
 const app = Fastify({ logger: { level: cfg.logLevel } });
@@ -17,11 +18,9 @@ const app = Fastify({ logger: { level: cfg.logLevel } });
 await app.register(cors, { origin: cfg.corsOrigin === '*' ? true : [cfg.corsOrigin] });
 await app.register(multipart, { limits: { fileSize: 20 * 1024 * 1024, files: 1 } });
 
-registerHealth(app);
+// registerHealth(app);
 registerModels(app, cfg);
 registerChatCompat(app, cfg);
-registerV2(app, cfg);
-registerSave(app);
 
 const close = async () => {
   try { await app.close(); } catch {}

@@ -16,9 +16,9 @@ export type AppConfig = {
   logLevel: 'info' | 'error' | 'warn' | 'debug' | 'trace' | 'fatal';
 };
 
-export function loadConfig(): AppConfig {
+export default function loadConfig(): AppConfig {
   const env = process.env as Record<string, string | undefined>;
-  const port = Number(env.PORT || 8787);
+  const port = Number(env.PORT || 4117);
   const provider = (env.PROVIDER || 'ollama').toLowerCase() as AppConfig['provider'];
   const ollamaBaseUrl = env.OLLAMA_BASE_URL || 'http://localhost:11434/v1';
   const ollamaModel = env.OLLAMA_MODEL || 'qwen3:4b';

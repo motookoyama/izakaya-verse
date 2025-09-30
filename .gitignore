@@ -171,3 +171,5 @@ out/
 # Local development
 .local/
 .cache/
+
+backend/izakaya-api/

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frame Map – MetaCapture Editor</title>
+    <style>
+      :root { font-family: sans-serif; background: #f8f8f8; color: #333; }
+      body { margin: 0; padding: 32px; }
+      .page { max-width: 1200px; margin: 0 auto; display: grid; gap: 16px; }
+      .tabs { display: grid; grid-auto-flow: column; gap: 8px; }
+      .tab { height: 36px; border-radius: 6px 6px 0 0; border: 2px solid #bbb; background: #e3e3e3; }
+      .section { border: 2px solid #bbb; border-radius: 10px; padding: 24px; display: grid; gap: 16px; position: relative; }
+      .section::after { position: absolute; inset: 8px auto auto 8px; font-size: 12px; color: #666; }
+      .capture::after { content: '#メタキャプチャーフロー'; }
+      .capture { grid-template-columns: repeat(4, 1fr); }
+      .capture .step { border: 2px dashed #bbb; border-radius: 8px; min-height: 64px; }
+      .card-info { grid-template-columns: 200px 1fr; }
+      .card-info::after { content: '#V2カード情報'; }
+      .card-info .portrait { border: 2px dashed #bbb; border-radius: 8px; min-height: 200px; }
+      .card-info .fields { border: 2px dashed #bbb; border-radius: 8px; min-height: 200px; }
+      .elements { grid-template-columns: repeat(4, 1fr); }
+      .elements::after { content: '#キャラプロンプト/エディタ'; }
+      .elements .element { border: 2px dashed #bbb; border-radius: 8px; min-height: 160px; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="tabs">
+        <div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div>
+      </div>
+      <section class="section capture">
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </section>
+      <section class="section card-info">
+        <div class="portrait"></div>
+        <div class="fields"></div>
+      </section>
+      <section class="section elements">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+      </section>
+    </div>
+  </body>
+</html>

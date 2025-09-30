@@ -1,0 +1,319 @@
+---
+sAtd: IZAKAYA verse — TOTAL BUILD SPEC
+version: 2.1
+author: ChatGPT (GPT-5 Thinking)
+date: 2025-08-29
+status: "Ready to implement"
+notes: >
+  This is a self-contained instruction spec to complete Phase 2 web UI for IZAKAYA verse.
+  It merges: App shell, pages, ChatField, icon mapping (filenames kept AS-IS), API binding
+  placeholders, and build/run steps for React + Tailwind projects. Hand this file to Cursor
+  or any builder and request a straight implementation with minimal interpretation.
+---
+
+meta:
+  repository: "izakaya-verse"
+  app_name: "IZAKAYA verse"
+  routes:
+    - path: "/"
+      name: "Home"
+    - path: "/verse"
+      name: "IZAKAYA verse"
+    - path: "/library"
+      name: "library"
+    - path: "/play"
+      name: "Play"
+    - path: "/qr"
+      name: "QR code"
+    - path: "/config"
+      name: "config"
+  tech_stack:
+    frontend: "React + React Router + TailwindCSS"
+    bundler: "Vite (recommended) or Next.js (app dir OK)"
+    icons: "PNG/JPEG provided by user (keep names *exactly* as-is)"
+    public_assets_dir: "/assets/icons"  # place under project /public/assets/icons
+  a11y_baseline:
+    contrast: "WCAG AA for body text"
+    focus: "visible focus ring on interactive elements"
+    language_attr: "html lang='ja' (default)"
+  i18n:
+    default: "ja"
+    supported: ["ja","en"]
+
+assets:
+  nav_icons:  # keep filenames with spaces/case
+    home:
+      file: "icon-gate.png"
+      alt: "Home"
+      route: "/"
+    verse:
+      file: "icon-chat frame.png"
+      alt: "IZAKAYA verse"
+      route: "/verse"
+    library:
+      file: "icon-library.png"
+      alt: "library"
+      route: "/library"
+    qr:
+      file: "icon-QR guide.png"
+      alt: "QR code"
+      route: "/qr"
+    config:
+      file: "icon-tool BOX.png"
+      alt: "config"
+      route: "/config"
+  aux_icons:
+    link_map: "icon-link map.png"
+    character_face: "icon-character face.png"
+    config_search: "icon-config search.png"
+  emblem_light: "icon-red emblem.jpeg"
+  emblem_dark:  "icon-RED emblem.jpeg"
+
+theme:
+  colors:
+    brand_primary: "#ff0057"
+    brand_accent:  "#ff2a6d"
+    brand_dark:    "#0b0b0b"
+    surface_0:     "#ffffff"
+    surface_1:     "#f2c7d7"
+    surface_2:     "#d9d9d9"
+    border:        "#e7e1e5"
+    text_main:     "#111111"
+    text_soft:     "#4b4b4b"
+  radii:
+    card: "1.25rem"
+    pill: "9999px"
+  shadow_soft: "0 8px 24px rgba(0,0,0,.08)"
+  fonts:
+    display: "Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans JP, sans-serif"
+    body:    "Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans JP, sans-serif"
+  tokens:
+    container_pad: "max-w-6xl mx-auto px-4 md:px-6"
+    card_base: "rounded-[1.25rem] bg-[var(--surface_0)] border border-[var(--border)] shadow-[0_8px_24px_rgba(0,0,0,.08)]"
+    title_bar: "rounded-[1rem] bg-[var(--brand_primary)] text-white px-6 h-12 flex items-center justify-center font-semibold"
+    cta_btn: "px-6 py-3 rounded-xl bg-[var(--brand_primary)] text-white font-semibold hover:opacity-90"
+
+app_shell:
+  header:
+    classes: "w-full border-b border-[var(--border)] bg-[var(--surface_0)]"
+    height: "h-24"
+    nav:
+      container: "{container_pad} flex items-center justify-center gap-8"
+      item:
+        wrapper: "flex flex-col items-center gap-1 text-center"
+        icon: "h-8 w-8"
+        label: "text-xs md:text-sm"
+    right_status:
+      slot: "absolute right-4 top-4"
+      mock_text: "# userinfo ポイント  管理モード"
+  footer:
+    classes: "mt-16 border-t border-[var(--border)]"
+    inner: "{container_pad} py-6 text-sm text-[var(--text_soft)]"
+    copyright: "© IZAKAYA verse  motookoyama@nohonx"
+
+pages:
+  home:
+    hero_card:
+      classes: "{card_base} bg-[var(--surface_1)] p-8 flex flex-col md:flex-row items-center gap-6"
+      emblem_light: "/assets/icons/icon-red emblem.jpeg"
+      emblem_dark:  "/assets/icons/icon-RED emblem.jpeg"
+      title: "ようこそ IZAKAYA verse へ"
+      subtitle: "# 挨拶序文、解説"
+    cta:
+      text: "今すぐプレイ"
+      classes: "mx-auto mt-4 {cta_btn}"
+      action: "navigate('/play')"
+    info_banner:
+      classes: "{card_base} bg-[var(--surface_2)] h-40 flex items-center justify-center text-[var(--text_soft)]"
+      text: "# インフォメーション更新通知"
+    bottom_accent:
+      classes: "mt-6 h-12 rounded-[1rem] bg-[var(--brand_primary)]"
+  verse:   # MetaCapture / Play Hub
+    info_bar:
+      classes: "rounded-[1rem] bg-[var(--brand_primary)] text-white {container_pad} h-14 flex items-center justify-center font-semibold"
+      text: "Metacapture #インフォ"
+    grid:
+      classes: "{container_pad} grid gap-6 md:grid-cols-[1.2fr_1fr]"
+      left_panel:
+        classes: "bg-[var(--surface_1)] {card_base} p-6 h-[420px]"
+        text: "# 操作パネル 入力欄"
+      right_panel:
+        classes: "bg-[var(--surface_2)] {card_base} p-6 h-[420px]"
+        text: "# パラメーター"
+    cards_row:
+      classes: "{container_pad} grid grid-cols-4 gap-4 items-start"
+      big_card:
+        classes: "bg-[#7b5cff] text-white rounded-[1rem] h-56 flex items-center justify-center"
+        label: "Card"
+      info:
+        classes: "{card_base} p-4"
+        label: "# V2カード info"
+      mini_cards:
+        classes: "grid grid-cols-2 gap-3"
+        item: "bg-[#7b5cff] text-white rounded-[1rem] h-28 flex items-center justify-center"
+      result_panel:
+        classes: "{card_base} bg-[var(--surface_2)] p-6 h-64 md:h-72"
+        label: "# 生成結果 info"
+  play:    # Chat page (uses ChatField component)
+    title_bar:
+      classes: "{title_bar}"
+      text: "# タイトル  インフォ"
+    body_grid:
+      classes: "{container_pad} grid gap-6 md:grid-cols-[280px_1fr]"
+      left:
+        params: "{card_base} p-4 grid gap-4"
+        v2drop: "{card_base} p-4"
+        info:   "{card_base} p-4"
+        mini_cards:
+          classes: "grid grid-cols-3 gap-3"
+          item: "bg-[#7b5cff] text-white rounded-[1rem] h-24 flex items-center justify-center"
+      right_chat:
+        component: "ChatField"
+        props:
+          lang: "ja"
+          initialCards:
+            - { id: "master", name: "Master", png: "/assets/icons/icon-character face.png" }
+          getAdminMode: "()=>false"
+    gaming_panel:
+      classes: "{container_pad} {card_base} p-6 h-64 md:h-72"
+      text: "# ゲーミングパネル予定"
+  library:
+    title_bar:
+      classes: "{title_bar}"
+      text: "library # タイトル info"
+    gallery:
+      wrapper: "{container_pad} bg-[var(--surface_1)] {card_base} p-6"
+      grid: "grid gap-6 md:grid-cols-4"
+      card_shell: "{card_base} p-4"
+      card_thumb: "bg-[#7b5cff] rounded-[1rem] h-40 mb-3"
+      card_info:  "text-sm"
+      note: "# メインコンテナ 表示ゾート、ダウンロード、アップロード"
+  qr:
+    top_accent: "h-4 rounded-[1rem] bg-[var(--brand_primary)] {container_pad}"
+    two_cols:
+      container: "{container_pad} grid gap-6 md:grid-cols-[1.4fr_.9fr] mt-4"
+      left:  "{card_base} bg-[var(--surface_1)] p-6 min-h-[360px]"
+      right: "{card_base} bg-[var(--surface_1)] p-6 min-h-[360px]"
+    bottom:
+      paragraph: "# 段落テキスト"
+      emblem: "/assets/icons/icon-red emblem.jpeg"
+  config:
+    sections:
+      - "{card_base} p-6"
+      - "{card_base} p-6"
+    hints: "設定/検索で aux_icons.config_search を使用可"
+
+chat_field_spec:
+  component: "ChatField"
+  file_hint: "src/modules/chat/ChatField.tsx"
+  input_box:
+    max_chars: 4000
+    enter_to_send: true
+    shift_enter_newline: true
+  attachments:
+    drag_drop: true
+    accept: [".png",".json",".sAtd",".md",".txt"]
+  cards_slots:
+    max: 3
+    behavior: "FIFO — 4つ目を追加したら最古を捨てる"
+  messages:
+    hide_system_for_users: true
+    admin_mode_toggle: "getAdminMode() prop"
+  logging:
+    export_md: true
+    export_json: true
+    schema:
+      turn_history: "[{ role, text, ts }]"
+      active_card_ids: "[string]"
+      timestamp: "ISO 8601"
+      user_id_hash: "string (実装側で差し替え)"
+  api_hook:
+    onSend: "(text, files) => POST /api/chat (or /api/metacapture) → {role:'assistant', text}"
+    onDropFiles: "(files[]) => optional"
+    onResetAll: "() => optional"
+
+api_bindings:
+  read:
+    user_info: "GET /api/userinfo"
+    library_list: "GET /api/library"
+  write:
+    qr_generate: "POST /api/qr"
+    meta_capture: "POST /api/metacapture"
+    chat: "POST /api/chat"
+  navigation:
+    home_cta: "navigate('/play')"
+    library_card_click: "open detail modal"
+
+file_tree_recommended:
+  - public/
+    - assets/
+      - icons/
+        - "icon-gate.png"
+        - "icon-chat frame.png"
+        - "icon-library.png"
+        - "icon-QR guide.png"
+        - "icon-tool BOX.png"
+        - "icon-link map.png"
+        - "icon-character face.png"
+        - "icon-config search.png"
+        - "icon-red emblem.jpeg"
+        - "icon-RED emblem.jpeg"
+  - src/
+    - App.tsx
+    - main.tsx
+    - index.css
+    - pages/
+      - Home.tsx
+      - Verse.tsx
+      - Library.tsx
+      - Play.tsx
+      - QR.tsx
+      - Config.tsx
+    - modules/
+      - chat/
+        - ChatField.tsx
+        - index.ts
+
+implementation_steps:
+  - "Create /public/assets/icons and copy ALL icon files with the ORIGINAL names (including spaces & case)."
+  - "Implement App shell per app_shell and nav assets order: home, verse, library, qr, config."
+  - "Build pages per 'pages' blocks; reuse tokens by replacing {container_pad}/{card_base}/{title_bar} literals inline."
+  - "Implement ChatField component per chat_field_spec and mount it on /play (right column)."
+  - "Wire API endpoints in api_bindings. If an endpoint is not ready, mock with a local echo server."
+  - "Ensure images use paths like '/assets/icons/icon-QR guide.png'. Do NOT rename. Use quotes and encodeURI if needed."
+  - "Add responsive rules below and verify on 360px, 768px, 1024px widths."
+  - "Run QA checklist and fix before merge."
+
+responsive_rules:
+  sm: 640
+  md: 768
+  lg: 1024
+  rules:
+    - "Nav icons stay centered; reduce gap on < md"
+    - "Verse two-column stacks to one on < md"
+    - "Library grid: 1col < sm, 2col @sm, 4col @md+"
+    - "ChatField height: min 520px, clamp to 60vh on small screens"
+
+qa_checklist:
+  - "All nav icons display and routes work."
+  - "Home CTA navigates to /play."
+  - "ChatField: Enter送信 / Shift+Enter改行 / 文字数制限 4000."
+  - "D&D accepts only specified extensions; badges show filenames."
+  - "System messages hidden unless admin."
+  - "Log export (md/json) produces files with expected schema."
+  - "Library cards wrap to 4/2/1 columns per breakpoint."
+  - "Focus ring visible on buttons/links/inputs."
+  - "Images load from /assets/icons with original filenames (no 404)."
+  - "Emblem switches correctly when dark theme is introduced (optional)."
+
+handoff_notes:
+  for_cursor:
+    - "Interpret this .sAtd literally. Avoid creative deviations."
+    - "If bundler complains about spaces in filenames, do NOT rename files. Use literal string paths (e.g., <img src='/assets/icons/icon-QR guide.png' />) or encodeURI."
+    - "Prefer functional components; no CSS-in-JS necessary beyond Tailwind classes."
+  for_other_builders:
+    - "Use the same file tree & API contracts; swap bundler as needed."
+  migration:
+    - "Future: move constants to tailwind.config.js as tokens; current spec inlines class strings for speed."
+    - "Future: add theme switcher to swap emblem assets by prefers-color-scheme."
+

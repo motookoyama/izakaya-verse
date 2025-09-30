@@ -4,7 +4,6 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-# Optionally stop first
 if [ "${STOP_FIRST:-0}" = "1" ]; then
   echo "[start-lite] Stopping first..."
   "$ROOT/scripts/stop.sh" || true
@@ -12,7 +11,6 @@ fi
 
 is_free() { ! lsof -ti :"$1" >/dev/null 2>&1; }
 
-# Decide frontend port
 FE_PORT="${FRONTEND_PORT:-}"
 if [ -z "$FE_PORT" ]; then
   if is_free 5173; then FE_PORT=5173
@@ -21,8 +19,18 @@ if [ -z "$FE_PORT" ]; then
   fi
 fi
 
-# Decide BFF port
-BFF_PORT="${BFF_PORT:-8787}"
+API_PORT="${API_PORT:-3117}"
+BFF_PORT="${BFF_PORT:-4117}"
+
+if ! is_free "$API_PORT"; then
+  if [ "${AUTO_KILL:-0}" = "1" ]; then
+    echo "[start-lite] Port $API_PORT busy. Killing..."
+    lsof -ti :"$API_PORT" | xargs -r kill -9 || true
+  else
+    echo "[start-lite] Note: port $API_PORT is busy. Consider STOP_FIRST=1 or AUTO_KILL=1."
+  fi
+fi
+
 if ! is_free "$BFF_PORT"; then
   if [ "${AUTO_KILL:-0}" = "1" ]; then
     echo "[start-lite] Port $BFF_PORT busy. Killing..."
@@ -32,11 +40,10 @@ if ! is_free "$BFF_PORT"; then
   fi
 fi
 
-# Set CORS_ORIGIN to match frontend
 export FRONTEND_PORT="$FE_PORT"
+export API_PORT
 export BFF_PORT
-export CORS_ORIGIN="${CORS_ORIGIN:-http://localhost:$FE_PORT}"
+export VITE_API_BASE="${VITE_API_BASE:-http://localhost:$API_PORT}"
 
-echo "[start-lite] Starting with FRONTEND_PORT=$FRONTEND_PORT, BFF_PORT=$BFF_PORT, CORS_ORIGIN=$CORS_ORIGIN"
+echo "[start-lite] Starting with FRONTEND_PORT=$FRONTEND_PORT, API_PORT=$API_PORT, BFF_PORT=$BFF_PORT, VITE_API_BASE=$VITE_API_BASE"
 "$ROOT/scripts/start.sh"
-

@@ -13,7 +13,7 @@ if [[ -f .env ]]; then
   set -a; source .env; set +a
 fi
 
-BFF_PORT="${PORT:-8787}"
+BFF_PORT="${PORT:-4117}"
 BFF_URL="http://localhost:${BFF_PORT}"
 PROVIDER="${PROVIDER:-ollama}"
 TIMEOUT_HEALTH="${SANITY_TIMEOUT_HEALTH:-5}"

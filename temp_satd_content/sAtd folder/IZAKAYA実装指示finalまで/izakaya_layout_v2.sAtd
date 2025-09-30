@@ -1,0 +1,253 @@
+---
+sAtd: IZAKAYA verse Layout Spec
+version: 2.0
+author: ChatGPT (GPT-5 Thinking)
+date: 2025-08-29
+notes: >
+  This .sAtd defines the React + Tailwind layout and asset placements for IZAKAYA verse Phase 2.
+  Keep ALL original filenames (including spaces & capitalization) to match the user's icon pack in Cursor.
+  This spec focuses on structure/placement and leaves behavior to existing backend/connectors.
+---
+
+meta:
+  app_name: "IZAKAYA verse"
+  routes:
+    - "/"
+    - "/verse"
+    - "/library"
+    - "/qr"
+    - "/config"
+  tech_stack:
+    frontend: "React + React Router + TailwindCSS"
+    icons: "PNG/JPEG provided by user (keep file names as-is)"
+    assets_public_dir: "/assets/icons"  # place under public/assets/icons in the project
+  accessibility:
+    color_contrast_target: "WCAG AA"
+    focus_ring: "outline-2 outline-offset-2"
+
+assets:
+  # Keep names EXACTLY as uploaded (including spaces and capitalization)
+  # Place these under public/assets/icons/ (with spaces preserved)
+  nav_icons:
+    home:
+      file: "icon-gate.png"
+      label: "Home"
+      route: "/"
+    verse:
+      file: "icon-chat frame.png"
+      label: "IZAKAYA verse"
+      route: "/verse"
+    library:
+      file: "icon-library.png"
+      label: "library"
+      route: "/library"
+    qr:
+      file: "icon-QR guide.png"
+      label: "QR code"
+      route: "/qr"
+    config:
+      file: "icon-tool BOX.png"
+      label: "config"
+      route: "/config"
+  aux_icons:
+    link_map: "icon-link map.png"
+    character_face: "icon-character face.png"
+    config_search: "icon-config search.png"
+  emblem_light: "icon-red emblem.jpeg"   # light bg (white)
+  emblem_dark:  "icon-RED emblem.jpeg"   # dark bg (black)
+
+theme:
+  colors:
+    brand_primary: "#ff0057"   # hot pink/red from provided icons
+    brand_accent:  "#ff2a6d"
+    brand_dark:    "#0b0b0b"
+    surface_0:     "#ffffff"
+    surface_1:     "#f9f2f4"   # light pink background used on sections
+    surface_2:     "#e7e1e5"   # card borders
+    text_main:     "#111111"
+    text_soft:     "#4b4b4b"
+    danger:        "#ff1a1a"
+  radii:
+    card: "1.25rem"
+    pill: "9999px"
+  shadows:
+    soft: "0 8px 24px rgba(0,0,0,.08)"
+  typography:
+    display: "Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans JP, sans-serif"
+    body:    "Inter, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans JP, sans-serif"
+    scale:
+      h1: "text-3xl md:text-4xl"
+      h2: "text-2xl"
+      h3: "text-xl"
+      body: "text-base leading-relaxed"
+  tokens:
+    container_pad: "max-w-6xl mx-auto px-4 md:px-6"
+    card_base: "rounded-[1.25rem] bg-surface-0 border border-surface-2 shadow-[0_8px_24px_rgba(0,0,0,.08)]"
+    pink_panel: "rounded-[1.25rem] bg-[var(--surface-1)]"
+    cta_btn: "px-6 py-3 rounded-xl bg-[var(--brand-primary)] text-white font-semibold hover:opacity-90"
+
+layout:
+  # Shared Shell
+  app_shell:
+    header:
+      height: "h-24"
+      bar:
+        classes: "w-full border-b border-[var(--surface-2)] bg-[var(--surface-0)]"
+      nav:
+        container: "{container_pad} flex items-center justify-center gap-8"
+        item:
+          wrapper: "flex flex-col items-center gap-1 text-center"
+          icon: "h-8 w-8"
+          label: "text-xs md:text-sm"
+      right_status:
+        slot: "absolute right-4 top-4"
+        mock_text: "# userinfo ポイント  管理モード"
+    footer:
+      classes: "mt-16 border-t border-[var(--surface-2)]"
+      inner: "{container_pad} py-6 text-sm text-[var(--text-soft)]"
+      copyright: "© IZAKAYA verse  motookoyama@nohonx"
+
+  # Page: Home
+  home:
+    hero_card:
+      classes: "{card_base} bg-[#f2c7d7] p-8 flex flex-col md:flex-row items-center gap-6"
+      emblem:
+        img_light: "/assets/icons/icon-red emblem.jpeg"
+        img_dark:  "/assets/icons/icon-RED emblem.jpeg"
+        classes: "max-w-[420px] w-full"
+      copy:
+        title: "ようこそ IZAKAYA verse へ"
+        subtitle: "# 挨拶序文、解説"
+    cta:
+      button: "今すぐプレイ"
+      classes: "mx-auto mt-4 {cta_btn}"
+    info_banner:
+      classes: "{card_base} bg-[#d9d9d9] h-40 flex items-center justify-center text-[var(--text-soft)]"
+      text: "# インフォメーション更新通知"
+    bottom_accent:
+      classes: "mt-6 h-12 rounded-[1rem] bg-[var(--brand-primary)]"
+
+  # Page: IZAKAYA verse (MetaCapture / Play Hub)
+  verse:
+    top_info_bar:
+      classes: "rounded-[1rem] bg-[var(--brand-primary)] text-white {container_pad} h-14 flex items-center justify-center font-semibold"
+      text: "Metacapture #インフォ"
+    grid:
+      classes: "{container_pad} grid gap-6 md:grid-cols-[1.2fr_1fr]"
+      left_panel:
+        classes: "bg-[#f2c7d7] {card_base} p-6 h-[420px]"
+        text: "# 操作パネル 入力欄"
+      right_panel:
+        classes: "bg-[#d9d9d9] {card_base} p-6 h-[420px]"
+        text: "# パラメーター"
+    cards_row:
+      classes: "{container_pad} grid grid-cols-4 gap-4 items-start"
+      big_card:
+        classes: "bg-[#7b5cff] text-white rounded-[1rem] h-56 flex items-center justify-center"
+        label: "Card"
+      info:
+        classes: "{card_base} p-4"
+        label: "# V2カード info"
+      mini_cards:
+        classes: "grid grid-cols-2 gap-3"
+        item_classes: "bg-[#7b5cff] text-white rounded-[1rem] h-28 flex items-center justify-center"
+      result_panel:
+        classes: "{card_base} bg-[#d9d9d9] p-6 h-64 md:h-72"
+        label: "# 生成結果 info"
+
+  # Page: Play (Chat)
+  play:
+    top_title_bar:
+      classes: "rounded-[1rem] bg-[var(--brand-primary)] text-white {container_pad} h-12 flex items-center justify-center font-semibold"
+      text: "# タイトル  インフォ"
+    main:
+      container: "{container_pad} grid gap-6 md:grid-cols-[280px_1fr]"
+      left:
+        params: "{card_base} p-4 grid gap-4"
+        v2drop: "{card_base} p-4"
+        info:   "{card_base} p-4"
+        mini_cards:
+          classes: "grid grid-cols-3 gap-3"
+          item: "bg-[#7b5cff] text-white rounded-[1rem] h-24 flex items-center justify-center"
+      right_chat:
+        panel: "bg-[#f2c7d7] {card_base} p-4 md:p-6 h-[520px] flex flex-col"
+        scroll: "flex-1 overflow-y-auto pr-2"
+        input: "mt-3 h-12 rounded-xl bg-white px-4 flex items-center border"
+    gaming_panel:
+      classes: "{container_pad} {card_base} p-6 h-64 md:h-72"
+      text: "# ゲーミングパネル予定"
+
+  # Page: Library
+  library:
+    title_bar:
+      classes: "rounded-[1rem] bg-[var(--brand-primary)] text-white {container_pad} h-12 flex items-center justify-center font-semibold"
+      text: "library # タイトル info"
+    gallery:
+      wrapper: "{container_pad} bg-[#f2c7d7] {card_base} p-6"
+      grid: "grid gap-6 md:grid-cols-4"
+      card_shell: "{card_base} p-4"
+      card_thumb: "bg-[#7b5cff] rounded-[1rem] h-40 mb-3"
+      card_info:  "text-sm"
+    main_zone_note: "# メインコンテナ 表示ゾート、ダウンロード、アップロード"
+
+  # Page: Tickets / QR
+  qr:
+    top_accent: "h-4 rounded-[1rem] bg-[var(--brand-primary)] {container_pad}"
+    two_cols:
+      container: "{container_pad} grid gap-6 md:grid-cols-[1.4fr_.9fr] mt-4"
+      left:  "{card_base} bg-[#f2c7d7] p-6 min-h-[360px]"
+      right: "{card_base} bg-[#f2c7d7] p-6 min-h-[360px]"
+    bottom:
+      paragraph: "# 段落テキスト"
+      emblem: "/assets/icons/icon-red emblem.jpeg"
+
+bindings:
+  # Hook points for Cursor to wire existing backend logic
+  state:
+    user_info: "GET /api/userinfo"         # points, name, mode
+    library_list: "GET /api/library"       # V2 card items
+    qr_generate: "POST /api/qr"            # token issuance
+    meta_capture: "POST /api/metacapture"  # input → result
+  ui_to_api:
+    home.play_cta: "navigate('/play')"
+    verse.submit:  "call meta_capture"
+    library.card.click: "open detail modal"
+    qr.buy_button: "navigate('/tickets') or external payment"
+  assets_resolve_rule: >
+    IMG src should be '/assets/icons/<original file name here>' (spaces included).
+    Do not rename or slugify. If the bundler has issues with spaces, enclose path
+    in quotes and use encodeURI at import time.
+
+components:
+  NavBar:
+    structure:
+      - Icon + Label (from assets.nav_icons order: home, verse, library, qr, config)
+      - Right status slot (userinfo/points)
+    behavior:
+      - Active link highlight: text-[var(--brand-primary)] & underline on active route
+  Card:
+    base: "{card_base} p-4"
+  SectionTitle:
+    base: "rounded-[1rem] bg-[var(--brand-primary)] text-white px-6 h-12 flex items-center font-semibold"
+
+responsive:
+  breakpoints:
+    sm: 640
+    md: 768
+    lg: 1024
+  rules:
+    - "Nav icons remain centered; reduce gap on < md"
+    - "Library grid: 1col on < sm, 2col on sm, 4col on md+"
+    - "Verse 2-col switches to 1-col on < md; stack panels"
+    - "Chat panel height clamps to 60vh on small screens"
+
+handoff:
+  for_cursor:
+    - "Create /public/assets/icons and drop all provided files with their original names."
+    - "Implement App shell and routes as per 'meta.routes'."
+    - "Use theme.tokens and classes strings literally; replace {container_pad}/{card_base} inline."
+    - "Wire API endpoints at 'bindings.ui_to_api' with existing backend functions."
+    - "During import/require of assets with spaces, prefer static '/assets/icons/<file>' paths."
+  for_designer:
+    - "Provide final SVG/PNG for any future icons using the same naming convention (spaces allowed)."
+    - "If a dark theme is added, swap emblem_light/emblem_dark based on prefers-color-scheme."
