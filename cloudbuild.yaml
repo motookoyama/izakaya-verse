@@ -1,0 +1,66 @@
+# Main CI/CD pipeline for the IZAKAYA verse project
+# This file builds Docker images for each service, pushes them to Artifact Registry,
+# and deploys them to Cloud Run.
+
+steps:
+  # --- Step 1: Build Docker images ---
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-web'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-web:$COMMIT_SHA'
+      - 'web' # Corrected path
+    waitFor: ['-']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-bff'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-bff:$COMMIT_SHA'
+      - 'bff' # Corrected path
+    waitFor: ['-']
+
+  # --- Step 2: Push images to Artifact Registry ---
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-web'
+    args: ['push', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-web:$COMMIT_SHA']
+    waitFor: ['build-web']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-bff'
+    args: ['push', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-bff:$COMMIT_SHA']
+    waitFor: ['build-bff']
+
+  # --- Step 3: Deploy services to Cloud Run ---
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy-web'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'izakaya-web'
+      - '--image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-web:$COMMIT_SHA'
+      - '--region=asia-northeast1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+    waitFor: ['push-web']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy-bff'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'izakaya-bff'
+      - '--image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-bff:$COMMIT_SHA'
+      - '--region=asia-northeast1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+    waitFor: ['push-bff']
+
+images:
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-web:$COMMIT_SHA'
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/izakaya-verse-repo/izakaya-bff:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
