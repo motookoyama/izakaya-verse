@@ -89,4 +89,4 @@ npm run dev
 このプロジェクトは非公開です。
 
 ---
-CI/CD Pipeline Test: Triggering build at $(date)
+CI/CD Pipeline Test: Re-run after creating Artifact Registry repo.
