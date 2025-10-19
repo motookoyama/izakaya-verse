@@ -1,0 +1,28 @@
+{
+  "wallets": {
+    "demo-user-01": {
+      "balance": 900,
+      "updatedAt": "2025-10-19T03:45:31.136Z"
+    }
+  },
+  "ledger": [
+    {
+      "txId": "TX-20251019-X6WF5Y",
+      "userId": "demo-user-01",
+      "type": "debit",
+      "amount": 100,
+      "source": "API_CONSUME",
+      "sku": "CHAT_TOKEN",
+      "idempotencyKey": "demo-001",
+      "createdAt": "2025-10-19T03:45:31.136Z"
+    },
+    {
+      "txId": "TX-20251018-ABC123",
+      "userId": "demo-user-01",
+      "type": "credit",
+      "amount": 1000,
+      "source": "MANUAL_TEST",
+      "createdAt": "2025-10-19T03:45:31.122Z"
+    }
+  ]
+}

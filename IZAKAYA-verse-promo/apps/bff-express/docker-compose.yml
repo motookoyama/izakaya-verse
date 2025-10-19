@@ -1,0 +1,16 @@
+services:
+  mini-bff:
+    build: .
+    image: izakaya-mini-bff:latest
+    container_name: izakaya-mini-bff
+    ports:
+      - "${PORT:-4117}:4117"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:4117/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
